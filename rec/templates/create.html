@@ -1,0 +1,7 @@
+<h1>Add recipe</h1>
+
+<form action="{% url 'create' %}" method="POST">  
+    {{form.as_p}} 
+    {% csrf_token %}
+    <button type="submit">Add</button>
+</form>

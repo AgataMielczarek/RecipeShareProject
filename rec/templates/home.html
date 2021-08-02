@@ -1,5 +1,5 @@
 <h1>Home page</h1>
-
+<a href="{% url 'create' %}"><h1>Create ad</h1></a>
 
 {% if user.is_authenticated %}
     <p>You are logged in as {{user}}</p>

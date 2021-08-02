@@ -3,6 +3,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
+from .forms import RecForm
+from django.contrib.auth.decorators import login_required
+from .models import Recipe
 
 def register(request):
     if request.method == 'GET':
@@ -36,12 +39,31 @@ def log(request):
             error = 'Username or password is wrong. Try again.'
             return render(request, 'log.html', {'form': AuthenticationForm(), 'error': error})
 
+@login_required
 def logoutuser(request):
     logout(request)
     return redirect('home')
 
 
 def home(request):
-    return render(request, 'home.html')
+    rec = Recipe.objects.all()
+    return render(request, 'home.html', {'rec': rec})
+
+@login_required
+def create(request):
+    if request.method == 'GET':
+        return render(request, 'create.html', {'form': RecForm()})
+    else:
+        form = RecForm(request.POST)
+        if form.is_valid():
+            re = form.save(commit=False)
+            re.user = request.user 
+            re.save()
+            return redirect ('home')
+        else:
+            error = 'Something went wrong. Try again.'
+            return render(request, 'create.html', {'form': RecForm(), 'error': error})
+
+        
 
 
