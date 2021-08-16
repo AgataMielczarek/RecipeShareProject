@@ -1,0 +1,7 @@
+<h1>Edit recipe</h1>
+{{error}}
+<form action="{% url 'edit' re.id %}" method="POST">
+    {{form}}
+    {% csrf_token %}
+    <button type="submit">Save</button>
+</form>

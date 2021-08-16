@@ -9,4 +9,6 @@ urlpatterns = [
     path('create', views.create, name='create'),
     path('<int:reId>', views.detail, name='detail'),
     path('my', views.my, name='my'),
+    path('my/<int:reId>', views.edit, name='edit'),
+    
 ]

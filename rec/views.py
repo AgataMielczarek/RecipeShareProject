@@ -75,4 +75,17 @@ def my(request):
     return render(request, 'my.html', {'rec': rec})
 
 
-
+@login_required
+def edit(request, reId):
+    re = get_object_or_404(Recipe, pk=reId, user=request.user)
+    if request.method == 'GET':
+        form = RecForm(instance=re)
+        return render(request, 'edit.html', {'form': form, 're': re})
+    else:
+        form = RecForm(request.POST, instance=re)
+        if form.is_valid():
+            form.save()
+            return redirect('my')
+        else:
+            error = 'Something went wrong. Try again.'
+            return render(request, 'edit.html', {'form': form, 're': re, 'error': error})
