@@ -69,5 +69,10 @@ def detail(request, reId):
     re = get_object_or_404(Recipe, pk=reId)
     return render(request, 'detail.html', {'re':re})
 
+@login_required
+def my(request):
+    rec = Recipe.objects.filter(user=request.user)
+    return render(request, 'my.html', {'rec': rec})
+
 
 
