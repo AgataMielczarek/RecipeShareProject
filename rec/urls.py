@@ -10,5 +10,6 @@ urlpatterns = [
     path('<int:reId>', views.detail, name='detail'),
     path('my', views.my, name='my'),
     path('my/<int:reId>', views.edit, name='edit'),
-    
+    path('delete/<int:reId>', views.deleteRec, name='delete'),
+
 ]

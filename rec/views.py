@@ -89,3 +89,10 @@ def edit(request, reId):
         else:
             error = 'Something went wrong. Try again.'
             return render(request, 'edit.html', {'form': form, 're': re, 'error': error})
+
+
+@login_required
+def deleteRec(request, reId):
+    re = get_object_or_404(Recipe, pk=reId, user=request.user)
+    re.delete()
+    return redirect('my')
