@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
@@ -65,5 +65,9 @@ def create(request):
             return render(request, 'create.html', {'form': RecForm(), 'error': error})
 
         
+def detail(request, reId):
+    re = get_object_or_404(Recipe, pk=reId)
+    return render(request, 'detail.html', {'re':re})
+
 
 
