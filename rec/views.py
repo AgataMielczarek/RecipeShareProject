@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import RecForm
 from django.contrib.auth.decorators import login_required
 from .models import Recipe
+from django.db.models import Q
 
 def register(request):
     if request.method == 'GET':
@@ -64,6 +65,7 @@ def create(request):
             error = 'Something went wrong. Try again.'
             return render(request, 'create.html', {'form': RecForm(), 'error': error})
 
+
         
 def detail(request, reId):
     re = get_object_or_404(Recipe, pk=reId)
@@ -96,3 +98,23 @@ def deleteRec(request, reId):
     re = get_object_or_404(Recipe, pk=reId, user=request.user)
     re.delete()
     return redirect('my')
+
+def search(request):
+    keyWords = request.POST.get('search').split(" ")
+    for word in keyWords:
+        queryset = Recipe.objects.filter(
+            Q(name_icontains=word) | Q(ingridiens_icontains=word) | Q(desc_icontains=word))
+        try: 
+            rec = rec | queryset
+        except:
+            rec = queryset
+    return render(request, 'home.html', {'rec': rec})
+
+def display_cuisine(request, cuisineKey):
+    rec = Recipe.objects.filter(cuisine=cuisineKey)
+    return render(request, 'home.html', {'rec': rec})
+
+def display_level(request, levelKey):
+    rec = Recipe.objects.filter(level=levelKey)
+    return render(request, 'home.html', {'rec': rec})    
+

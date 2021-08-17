@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
 <h1>Home page</h1>
 <a href="{% url 'create' %}"><h1>Add new recipe</h1></a>
 
@@ -16,4 +20,5 @@
     <a href="{% url 'register' %}">Register</a>
     <a href="{% url 'log' %}">Log in</a>
 {% endif %}
-    
+
+{% endblock content %}
